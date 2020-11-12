@@ -1,24 +1,28 @@
 import express from 'express';
 import movieRouter from './api/movies/';
 import { loadDatabase } from './api/movies/service';
+import { User } from './api/users/models';
+import { findUserById } from './api/users/service';
 
 const app = express();
 app.use(express.json());
 
 app.use((req,res,next) => {
   console.log('paso por aqui', req.method);
-  console.log("req.url: ", req.url);
-  if (req.url.includes("admin")) {
-    console.log("clave administrador: ", req.headers);
-    if(req.headers.clave_administrador === '1234'){
+  console.log('req.url: ', req.url);
+  const idToFind: number = Number(req.headers.id);
+  const user = findUserById(idToFind);
+  console.log('Usuario:', user);
+  if (req.url.includes('admin')) {
+    if(user && user.rol === 'admin'){
       next();
-      return
+      return;
     } else {
       res.sendStatus(404);
-      return
+      return;
     }
   }
-  if (req.method == "GET") {
+  if (req.method == 'GET') {
     next();
     return
   }
@@ -30,9 +34,9 @@ app.use((req,res,next) => {
   }
 });
 
-app.get("/admin", (req, res) => {
-  res.json({titulo: "Lo importante es la salud"})
-})
+app.get('/admin', (req, res) => {
+  res.json({titulo: 'Lo importante es la salud'});
+});
 
 app.use('/movie', movieRouter);
 
