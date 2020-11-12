@@ -2,11 +2,11 @@
 
 init:
 	@echo "Initialising the project"
-	@yarn install
+	@npm install
 
 start:
 	@echo "🏃‍♀️ Starting project"
-	@yarn dev
+	@npm run dev
 
 check: --pre_check test build
 	@echo "✅"
@@ -17,19 +17,19 @@ docs:
 
 clean:
 	@echo "🛁 Cleaning..."
-	@yarn clean
+	@npm run clean
 
 clean_all:
 	@echo "🧨 Clean all"
-	@yarn cleanup
+	@npm run cleanup
 
 test:
 	@echo "Testing..."
-	@yarn test-ci
+	@npm run test-ci
 
 build:
 	@echo "👩‍🏭 Building..."
-	@yarn build
+	@npm run build
 
 release_patch: release
 
@@ -43,7 +43,7 @@ release: check
 	@.scripts/finish-release patch
 
 --pre_check:
-	@yarn clean
-	@yarn install
-	@yarn lint
-	@yarn tsc --project tsconfig.json
+	@npm run clean
+	@npm run install
+	@npm run lint
+	@npm run tsc --project tsconfig.json
