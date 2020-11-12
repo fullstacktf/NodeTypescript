@@ -6,7 +6,11 @@ const app = express();
 app.use(express.json());
 
 app.use((req,res,next) => {
-  console.log('paso por aqui');
+  console.log('paso por aqui', req.method);
+  if (req.method == "GET") {
+    next();
+    return
+  }
   if(req.headers.clavesupersegura === '1234'){
     next();
   }

@@ -18,6 +18,7 @@ export const loadDatabase = () => {
 };
 
 export const isLike = (id) => {
+    
 // TODO:    return moviesDB[getMovieIndex(id)].like;
 };
 
