@@ -1,5 +1,35 @@
 {
-  "1": { "id":"1" },
-  "2": { "id":"2" },
-  "3": { "id":"3" }
+  "size": 5,
+  "movies": {
+    "1": {
+      "id": 1,
+      "name": "Taxi Driver",
+      "categoria": "Cine Negro",
+      "like": false
+    },
+    "2": {
+      "id": 2,
+      "name": "El Padrino",
+      "categoria": "Drama",
+      "like": true
+    },
+    "3": {
+      "id": 3,
+      "name": "GoodFellas",
+      "categoria": "Mafia",
+      "like": true
+    },
+    "4": {
+      "id": 4,
+      "name": "American Pie",
+      "categoria": "Comedia",
+      "like": true
+    },
+    "5": {
+      "name": "Pelicula nueva",
+      "categoria": "si",
+      "like": false,
+      "id": 5
+    }
+  }
 }

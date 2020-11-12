@@ -1,6 +1,41 @@
 import fs from 'fs';
+import { Movie, MovieDB } from './models';
 
-let moviesDB = { size: 0 };
+let moviesDB:MovieDB = {
+    "size": 5,
+    "movies": {
+      "1": {
+        "id": 1,
+        "name": "Taxi Driver",
+        "categoria": "Cine Negro",
+        "like": false
+      },
+      "2": {
+        "id": 2,
+        "name": "El Padrino",
+        "categoria": "Drama",
+        "like": true
+      },
+      "3": {
+        "id": 3,
+        "name": "GoodFellas",
+        "categoria": "Mafia",
+        "like": true
+      },
+      "4": {
+        "id": 4,
+        "name": "American Pie",
+        "categoria": "Comedia",
+        "like": true
+      },
+      "5": {
+        "name": "Pelicula nueva",
+        "categoria": "si",
+        "like": false,
+        "id": 5
+      }
+    }
+  };
 
 export const loadDatabase = () => {
     console.log('Leyendo de la base de datos');
@@ -18,7 +53,7 @@ export const loadDatabase = () => {
 };
 
 export const isLike = (id) => {
-    
+
 // TODO:    return moviesDB[getMovieIndex(id)].like;
 };
 
@@ -42,6 +77,12 @@ export function getMovies() {
 }
 
 export const getMovie = (id) => moviesDB[id];
+
+//export const getLikedMovie = (): Movie[] => Object.values(moviesDB.movies).filter(movie => movie.like) 
+
+const isLike2 = (movie) => movie.like;
+
+export const getLikedMovie = (): Movie[] => Object.values(moviesDB.movies).filter(isLike2);
 
 export function createMovie(movie) {
   moviesDB.size++;

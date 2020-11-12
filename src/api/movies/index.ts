@@ -1,5 +1,5 @@
 import express from 'express';
-import { createMovie, isLike, getMovie, getMovies } from './service';
+import { createMovie, isLike, getMovie, getMovies, getLikedMovie } from './service';
 
 const router = express.Router();
 
@@ -18,8 +18,7 @@ router.get('/like/:id', (req, res) => {
 });
 
 router.get('/like', (req, res) => {
-// TODO: 	let likedDDBB = moviesDB.filter((movie) => movie.like);
-// 	res.json(likedDDBB);
+	res.json(getLikedMovie());
 });
 
 router.get('/unlike', (req, res) => {
