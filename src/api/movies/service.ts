@@ -1,13 +1,13 @@
-import fs from "fs";
+import fs from 'fs';
 
 let moviesDB = {};
 
 export const loadDatabase = () => {
-    console.log("Leyendo de la base de datos");
+    console.log('Leyendo de la base de datos');
     return new Promise((resolve, reject) => {
-        fs.readFile("movies_db.json", (err, data) => {
+        fs.readFile('movies_db.json', (err, data) => {
             if (err) {
-                reject("Hubo un error en la lectura del fichero");
+                reject('Hubo un error en la lectura del fichero');
             } else {
                 moviesDB = JSON.parse(data.toString());
                 resolve();
@@ -25,11 +25,11 @@ export const isLike = (id) => {
 };
 
 export const saveDatabase = () => {
-    console.log("Guardando la base de datos");
+    console.log('Guardando la base de datos');
     return new Promise((resolve, reject) => {
-        fs.writeFile("movies_db.json", JSON.stringify(moviesDB, null, 2), (err) => {
+        fs.writeFile('movies_db.json', JSON.stringify(moviesDB, null, 2), (err) => {
             if (err) {
-                reject("Hubo un error en la escritura del fichero");
+                reject('Hubo un error en la escritura del fichero');
             } else {
                 resolve();
             }
@@ -42,7 +42,7 @@ export function getMovies() {
     return moviesDB;
 }
 
-export const getMovie = (id) =>  moviesDB[id];
+export const getMovie = (id) => moviesDB[id];
 
 export function createMovie(movie) {
 // TODO:     moviesDB.size++;
