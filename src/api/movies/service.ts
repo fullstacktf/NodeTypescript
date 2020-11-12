@@ -1,38 +1,38 @@
-import fs from 'fs';
 import { Movie, MovieDB } from './models';
+import fetch from 'node-fetch';
 
-let moviesDB:MovieDB = {
-    "size": 5,
-    "movies": {
-      "1": {
-        "id": 1,
-        "name": "Taxi Driver",
-        "categoria": "Cine Negro",
-        "like": false
+let moviesDB: MovieDB = {
+    'size': 5,
+    'movies': {
+      '1': {
+        'id': 1,
+        'name': 'Taxi Driver',
+        'categoria': 'Cine Negro',
+        'like': false
       },
-      "2": {
-        "id": 2,
-        "name": "El Padrino",
-        "categoria": "Drama",
-        "like": true
+      '2': {
+        'id': 2,
+        'name': 'El Padrino',
+        'categoria': 'Drama',
+        'like': true
       },
-      "3": {
-        "id": 3,
-        "name": "GoodFellas",
-        "categoria": "Mafia",
-        "like": true
+      '3': {
+        'id': 3,
+        'name': 'GoodFellas',
+        'categoria': 'Mafia',
+        'like': true
       },
-      "4": {
-        "id": 4,
-        "name": "American Pie",
-        "categoria": "Comedia",
-        "like": true
+      '4': {
+        'id': 4,
+        'name': 'American Pie',
+        'categoria': 'Comedia',
+        'like': true
       },
-      "5": {
-        "name": "Pelicula nueva",
-        "categoria": "si",
-        "like": false,
-        "id": 5
+      '5': {
+        'name': 'Pelicula nueva',
+        'categoria': 'si',
+        'like': false,
+        'id': 5
       }
     }
   };
@@ -73,22 +73,32 @@ export const saveDatabase = () => {
 
 
 export function getMovies() {
-    return moviesDB;
+    return moviesDB.movies;
 }
 
-export const getMovie = (id) => moviesDB[id];
+export const getMovie = (id) => moviesDB.movies[id];
 
-//export const getLikedMovie = (): Movie[] => Object.values(moviesDB.movies).filter(movie => movie.like) 
+//export const getLikedMovie = (): Movie[] => Object.values(moviesDB.movies).filter(movie => movie.like)
 
 const isLike2 = (movie) => movie.like;
 
 export const getLikedMovie = (): Movie[] => Object.values(moviesDB.movies).filter(isLike2);
 
-export function createMovie(movie) {
+const sendNotification = (movie: Movie) => {
+  const url = 'https://hooks.slack.com/services/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';
+  const body = {text: 'Se ha creado la película: ' + movie.name, icon_emoji: ':react:'};
+  const bodyJson = JSON.stringify(body);
+  console.log(bodyJson);
+  fetch(url, { method: 'POST', body: bodyJson, headers: { 'Content-Type': 'application/json' }})
+  .then(json => console.log(json));
+};
+
+export function createMovie(movie: Movie): Movie {
   moviesDB.size++;
   movie.id = moviesDB.size;
-  moviesDB[moviesDB.size] = movie;
+  moviesDB.movies[moviesDB.size] = movie;
   saveDatabase();
+  sendNotification(movie);
   return movie;
 }
 
