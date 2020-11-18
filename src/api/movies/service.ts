@@ -3,6 +3,8 @@ import fetch from 'node-fetch';
 import { Collection, Db, MongoClient } from 'mongodb';
 import { rejects } from 'assert';
 import { addListener } from 'process';
+import { database } from '../..';
+import { MoviesRepository } from './MoviesRepository';
 
 let moviesDB: MovieDB = {
   size: 5,
@@ -135,12 +137,9 @@ const sendNotification = (movie: Movie) => {
     headers: { 'Content-Type': 'application/json' },
   }).then((json) => console.log(json));
 };
+const moviesRepository = new MoviesRepository();
+export function createMovie(database: Db, movie: Movie, name: string): Movie {
+  moviesRepository.save(movie);
 
-export function createMovie(movie: Movie): Movie {
-  moviesDB.size++;
-  movie.id = moviesDB.size;
-  moviesDB.movies[moviesDB.size] = movie;
-  saveDatabase();
-  sendNotification(movie);
   return movie;
 }

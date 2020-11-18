@@ -9,11 +9,10 @@ import {
 } from './service';
 
 const router = express.Router();
-
 // Esto se hace con el PostMan
 //creamos ID para las peliculas
 router.post('/', (req, res) => {
-  const movie = createMovie(req.body);
+  const movie = createMovie(database, req.body, 'movie');
   res.json(movie);
 });
 
