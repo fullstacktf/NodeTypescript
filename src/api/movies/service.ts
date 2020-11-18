@@ -1,5 +1,6 @@
 import { Movie, MovieDB } from './models';
 import fetch from 'node-fetch';
+import { Collection, MongoClient } from 'mongodb';
 
 let moviesDB: MovieDB = {
     'size': 5,
@@ -37,9 +38,33 @@ let moviesDB: MovieDB = {
     }
   };
 
+
+const insertMovies = (moviesCollection:Collection<any>) => {
+  const newMovie = {
+    'name': 'Pelicula nueva',
+    'categoria': 'si',
+    'like': false,
+    'id': 5
+  }
+  moviesCollection.insertOne(newMovie).then(() => {
+    console.log('Pelicula insertada');
+  });
+}
+
 export const loadDatabase = () => {
     console.log('Leyendo de la base de datos');
-    
+    MongoClient.connect("mongodb://172.31.245.202/db_movies", (error, client) => {
+      const db = client.db('db_movies');
+      const moviesCollection = db.collection('movies');
+
+      insertMovies(moviesCollection);
+      moviesCollection.find({}).toArray().then(movies => {
+        console.log('movies: ', movies);
+      })
+      if(error)
+        console.log('error: ', error);
+    })
+
     return new Promise((resolve, reject) => {
         // fs.readFile('./movies_db.json', (err, data) => {
         //     if (err) {
