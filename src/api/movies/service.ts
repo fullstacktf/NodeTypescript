@@ -5,6 +5,7 @@ import { rejects } from 'assert';
 import { addListener } from 'process';
 import { database } from '../..';
 import { MoviesRepository } from './MoviesRepository';
+import { UsersRepository } from '../users/UsersRepository';
 
 let moviesDB: MovieDB = {
   size: 5,
@@ -68,7 +69,7 @@ export const loadDatabase = (): Promise<Db> => {
   });
 
   /*
-  const db = 
+  const db =
   moviesCollection
     .find({})
     .toArray()
@@ -134,12 +135,18 @@ const sendNotification = (movie: Movie) => {
   fetch(url, {
     method: 'POST',
     body: bodyJson,
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json' }
   }).then((json) => console.log(json));
 };
-const moviesRepository = new MoviesRepository();
-export function createMovie(database: Db, movie: Movie, name: string): Movie {
-  moviesRepository.save(movie);
 
+const moviesRepository = new MoviesRepository();
+
+export function createMovie(movie: Movie): Movie {
+
+  const userRepository = new UsersRepository();
+  userRepository.save(movie);
+
+
+  moviesRepository.save(movie);
   return movie;
 }
