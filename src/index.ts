@@ -1,20 +1,23 @@
 import express from 'express';
+import { Db } from 'mongodb';
 import movieRouter from './api/movies/';
-import { loadDatabase } from './api/movies/service';
+import { insertMovies, loadDatabase } from './api/movies/service';
 import { User } from './api/users/models';
 import { findUserById } from './api/users/service';
 
 const app = express();
 app.use(express.json());
 
-app.use((req,res,next) => {
+export let database: Db;
+
+app.use((req, res, next) => {
   console.log('paso por aqui', req.method);
   console.log('req.url: ', req.url);
   const idToFind: number = Number(req.headers.id);
   const user = findUserById(idToFind);
   console.log('Usuario:', user);
   if (req.url.includes('admin')) {
-    if(user && user.rol === 'admin'){
+    if (user && user.rol === 'admin') {
       next();
       return;
     } else {
@@ -24,32 +27,39 @@ app.use((req,res,next) => {
   }
   if (req.method == 'GET') {
     next();
-    return
+    return;
   }
-  if(req.headers.clavesupersegura === '1234'){
+  if (req.headers.clavesupersegura === '1234') {
     next();
-  } else{
+  } else {
     console.log('no puede pasar');
     res.sendStatus(403);
   }
 });
 
 app.get('/admin', (req, res) => {
-  res.json({titulo: 'Lo importante es la salud'});
+  res.json({ titulo: 'Lo importante es la salud' });
 });
 
 app.use('/movie', movieRouter);
 
 app.get('/', (req, res) => {
-  console.log(req.headers);
-  res.json();
+  res.json(req);
 });
 
-loadDatabase()
-  .then(() => {
+async function init() {
+  database = await loadDatabase();
+  app.listen(3000, () => console.log('Listen on port 3000'));
+}
+
+init().catch((error) => {
+  console.error('Algo ha fallado', error);
+});
+
+/* .then((db) => {
+    database = db;
     app.listen(3000, () => console.log('Listen on port 3000'));
   })
   .catch((err) => {
     console.error("Database wasn't loaded: ", err);
-  });
-
+  });*/
