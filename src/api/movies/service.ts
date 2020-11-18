@@ -39,6 +39,7 @@ let moviesDB: MovieDB = {
 
 export const loadDatabase = () => {
     console.log('Leyendo de la base de datos');
+    
     return new Promise((resolve, reject) => {
         // fs.readFile('./movies_db.json', (err, data) => {
         //     if (err) {
