@@ -51,42 +51,42 @@ export const insertMovies = (moviesCollection: Collection<any>) => {
   });
 };
 
-export const loadDatabase = (): Promise<Db> => {
-  console.log('Leyendo de la base de datos');
-  return new Promise((resolve, reject) => {
-    MongoClient.connect('mongodb://localhost/db_movies', (error, client) => {
-      if (error) {
-        reject('Error al conectar la base de datos');
-      } else {
-        const db = client.db('db_movies');
-        resolve(db);
-      }
-    });
-  });
+// export const loadDatabase = (): Promise<Db> => {
+//   console.log('Leyendo de la base de datos');
+//   return new Promise((resolve, reject) => {
+//     MongoClient.connect('mongodb://localhost/db_movies', (error, client) => {
+//       if (error) {
+//         reject('Error al conectar la base de datos');
+//       } else {
+//         const db = client.db('db_movies');
+//         resolve(db);
+//       }
+//     });
+//   });
 
-  /*
-  const db =
-  moviesCollection
-    .find({})
-    .toArray()
-    .then((movies) => {
-      console.log('movies: ', movies);
-    });
-  if (error) console.log('error: ', error);
+//   /*
+//   const db =
+//   moviesCollection
+//     .find({})
+//     .toArray()
+//     .then((movies) => {
+//       console.log('movies: ', movies);
+//     });
+//   if (error) console.log('error: ', error);
 
-  return new Promise((resolve, reject) => {
-    // fs.readFile('./movies_db.json', (err, data) => {
-    //     if (err) {
-    //         reject('Hubo un error en la lectura del fichero');
-    //     } else {
-    //         moviesDB = JSON.parse(data.toString());
-    //         resolve();
-    //     }
-    // });
-    resolve();
-  });
-  */
-};
+//   return new Promise((resolve, reject) => {
+//     // fs.readFile('./movies_db.json', (err, data) => {
+//     //     if (err) {
+//     //         reject('Hubo un error en la lectura del fichero');
+//     //     } else {
+//     //         moviesDB = JSON.parse(data.toString());
+//     //         resolve();
+//     //     }
+//     // });
+//     resolve();
+//   });
+//   */
+// };
 
 export const isLike = (id) => {
   // TODO:    return moviesDB[getMovieIndex(id)].like;
