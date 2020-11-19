@@ -1,5 +1,6 @@
 import express from 'express';
 import { Db } from 'mongodb';
+import bookRouter from './api/books/';
 import movieRouter from './api/movies/';
 import gameRouter from './api/videogames/';
 import { insertMovies, loadDatabase } from './api/movies/service';
@@ -44,6 +45,8 @@ app.get('/admin', (req, res) => {
 
 app.use('/movie', movieRouter);
 
+app.use('/books', bookRouter);
+
 app.get('/', (req, res) => {
   res.json(req);
 });
@@ -52,7 +55,7 @@ app.use('/game', gameRouter);
 
 async function init() {
   database = await loadDatabase();
-  app.listen(3000, () => console.log('Listen on port 3000'));
+  app.listen(1234, () => console.log('Listen on port 1234'));
 }
 
 init().catch((error) => {
