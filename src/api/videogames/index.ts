@@ -1,7 +1,8 @@
 import express from 'express';
 import { database } from '../..';
 import {
-  createGame
+  createGame,
+  searchGames
 } from './service';
 
 const router = express.Router();
@@ -13,14 +14,9 @@ router.post('/', (req, res) => {
 });
 
 router.get('/', (req, res) => {
-  const moviesCollection = database.collection('movie');
-  moviesCollection
-    .find()
-    .limit(10)
-    .toArray()
-    .then((movies) => {
-      res.json(movies);
-    });
+  const moviesCollection = searchGames();
+  console.log(searchGames());
+  res.json(moviesCollection);
 });
 
 export default router;

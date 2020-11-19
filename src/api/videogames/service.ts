@@ -20,3 +20,9 @@ export function createGame(game: Videogame): Videogame {
   videogamesRepository.save(game);
   return game;
 }
+
+export function searchGames(): Videogame[] {
+  return videogamesRepository.readAll();
+}
+
+
