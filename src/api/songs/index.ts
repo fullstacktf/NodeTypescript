@@ -1,5 +1,8 @@
 import express from 'express';
-
+import { database } from '../..';
+import {
+    getAllSongs,
+} from './service';
 
 const router = express.Router();
 
@@ -35,7 +38,9 @@ router.delete('/:id', (req, res) => {
 });
 
 router.get('/', (req, res) => {
-
+    getAllSongs().then((songs) =>
+        res.json(songs)
+    )
 });
 
 export default router;

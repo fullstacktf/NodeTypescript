@@ -21,5 +21,18 @@ export class BaseRepository<T> {
       }
     });
   }
+
+  findAll() : Promise<T[]> {
+    return new Promise((resolve, reject) => {
+      this.getCollection()
+        .find()
+        .limit(100) //limit
+        .toArray()
+        .then(results => resolve(results))
+        .catch(err => reject(err));
+    });
+  }
+
+
 }
 
