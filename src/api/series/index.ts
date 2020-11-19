@@ -1,5 +1,5 @@
 import express from 'express';
-import { createSerie, getAllSeries, getSerieById, removeSerie } from './service';
+import { createSerie, getAllSeries, getSerieById, removeSerie, updateSerie } from './service';
 import { database } from "../..";
 
 const router = express.Router();
@@ -36,6 +36,16 @@ router.post('/', (req, res) => {
 });
 
 // PUT
+
+router.put('/:id/:name', (req,res) => {
+  updateSerie(Number(req.params.id), req.params.name)
+  .then((serie) => {
+    res.json(serie)
+  })
+  .catch((err => {
+    console.log(err)
+  }))
+})
 
 // DELETE
 

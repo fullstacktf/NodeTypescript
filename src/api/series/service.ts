@@ -1,6 +1,7 @@
 import { seriesDB } from './models';
 
 import { database } from "../..";
+import { rejects } from 'assert';
 
 let seriesDB: seriesDB = {
   size: 1,
@@ -63,4 +64,16 @@ export const removeSerie = (id:number) => {
         resolve(result);
     })
 })
+}
+
+export const updateSerie = (id:number, name: string) => {
+  const collection = database.collection('series');
+  return new Promise ((resolve, reject) => {
+    collection.updateOne({id: id},{$set: {"name": name}}, (err, result) => {
+      if(err) {
+        console.log("Error " + err);
+      }
+      resolve(result)
+    })
+  });
 }
