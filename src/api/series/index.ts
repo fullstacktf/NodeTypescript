@@ -1,5 +1,5 @@
 import express from 'express';
-import { createSerie, getAllSeries, getSerieById } from './service';
+import { createSerie, getAllSeries, getSerieById, removeSerie } from './service';
 
 
 const router = express.Router();
@@ -43,8 +43,7 @@ router.put('/:id', (req, res) => {
 
 router.delete('/:id', (req, res) => {
   let id = Number(req.params.id);
-  // TODO:	let movieEditIndex = moviesDB.findIndex((movie) => movie.id === id);
-  //	res.json(moviesDB.splice(movieEditIndex, 1));
+  res.json(removeSerie(id));
 });
 
 

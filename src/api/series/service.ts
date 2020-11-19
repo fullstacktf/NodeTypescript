@@ -34,8 +34,20 @@ export const getSerieById = (id:number) => {
   return serie;
 }
 
-export const createSerie = (body) => {
+export const createSerie = (body:any) => {
   seriesDB.size++;
   seriesDB.serie[seriesDB.size] = body;
+  return seriesDB;
+}
+
+export const removeSerie = (id:number) => {
+  let serie = seriesDB.serie[id] 
+  if (serie) {
+    delete seriesDB.serie[id]
+    // seriesDB.serie.splice(id, 1);
+  }
+  else{
+    console.log("No existe la serie")
+  }
   return seriesDB;
 }
