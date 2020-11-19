@@ -1,6 +1,6 @@
 import express from 'express';
 import { database } from '../..';
-import { createTag } from './service'
+import { createTag, deleteTag } from './service'
 
 /* import {
 
@@ -24,6 +24,12 @@ router.get('/', (req, res) => {
     .then((tags) => {
       res.json(tags);
     });
+});
+
+router.delete('/:id', (req, res) => {
+  const id = Number(req.params.id);
+  const tag = deleteTag(id);
+  res.json(tag);
 });
 
 export default router;

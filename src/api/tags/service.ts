@@ -9,3 +9,8 @@ export function createTag(tag: Tag): Tag {
   tagsRepository.save(tag);
   return tag;
 }
+
+export function deleteTag(id: Number): Number{
+  tagsRepository.removeById(id);
+  return id;
+}
