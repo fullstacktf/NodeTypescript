@@ -1,12 +1,11 @@
 import express from 'express';
-import { database } from '../..';
-import {
-    getAllSongs,
-} from './service';
+import { createSong, getAllSongs } from './service';
 
 const router = express.Router();
 
 router.post('/', (req, res) => {
+  createSong(req.body);
+  res.json('Se ha insertado o no');
 });
 
 router.get('/like/:id', (req, res) => {
@@ -38,9 +37,7 @@ router.delete('/:id', (req, res) => {
 });
 
 router.get('/', (req, res) => {
-    getAllSongs().then((songs) =>
-        res.json(songs)
-    )
+    getAllSongs().then((songs) => res.json(songs));
 });
 
 export default router;

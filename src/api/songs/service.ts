@@ -5,5 +5,6 @@ import { SongsRepository } from './SongsRepository';
 
 const repo = new SongsRepository();
 
-export const getAllSongs = (): Promise<Song[]> => 
-    repo.findAll()
+export const getAllSongs = (): Promise<Song[]> => repo.findAll();
+
+export const createSong = (song: Song): void => repo.save(song);

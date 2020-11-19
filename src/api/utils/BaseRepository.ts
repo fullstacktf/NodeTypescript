@@ -22,7 +22,7 @@ export class BaseRepository<T> {
     });
   }
 
-  findAll() : Promise<T[]> {
+  findAll(): Promise<T[]> {
     return new Promise((resolve, reject) => {
       this.getCollection()
         .find()
@@ -32,7 +32,5 @@ export class BaseRepository<T> {
         .catch(err => reject(err));
     });
   }
-
-
 }
 
