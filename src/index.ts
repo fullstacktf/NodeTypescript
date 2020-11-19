@@ -1,5 +1,6 @@
 import express from 'express';
 import { Db } from 'mongodb';
+import bookRouter from './api/books/';
 import movieRouter from './api/movies/';
 import { insertMovies, loadDatabase } from './api/movies/service';
 import { User } from './api/users/models';
@@ -43,13 +44,15 @@ app.get('/admin', (req, res) => {
 
 app.use('/movie', movieRouter);
 
+app.use('/books', bookRouter);
+
 app.get('/', (req, res) => {
   res.json(req);
 });
 
 async function init() {
   database = await loadDatabase();
-  app.listen(3000, () => console.log('Listen on port 3000'));
+  app.listen(1234, () => console.log('Listen on port 1234'));
 }
 
 init().catch((error) => {
