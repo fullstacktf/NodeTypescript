@@ -1,6 +1,8 @@
 import { Videogame } from './models';
 import { BaseRepository } from '../utils/BaseRepository';
-import { ObjectID } from 'mongodb';
+import { DeleteWriteOpResultObject, ObjectID } from 'mongodb';
+import { rejects } from 'assert';
+import { resolve } from 'path';
 
 export class VideogamesRepository extends BaseRepository<Videogame> {
   constructor() {
@@ -14,6 +16,10 @@ export class VideogamesRepository extends BaseRepository<Videogame> {
   edit(id: ObjectID, game: Partial<Videogame>): Partial<Videogame> {
     this.getCollection().updateOne({ _id: id }, { $set: { ...game } });
     return game;
+  }
+
+  delete(id: ObjectID): Promise<DeleteWriteOpResultObject> {
+    return this.getCollection().deleteOne({ _id: id });
   }
 }
 

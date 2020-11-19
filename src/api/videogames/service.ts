@@ -1,5 +1,5 @@
 import { Videogame } from './models';
-import { Collection, ObjectID } from 'mongodb';
+import { Collection, DeleteWriteOpResultObject, ObjectID } from 'mongodb';
 import { VideogamesRepository } from './VideogamesRepository';
 
 export const insertGames = (moviesCollection: Collection<any>) => {
@@ -30,6 +30,10 @@ export function updateGame(
   game: Partial<Videogame>
 ): Partial<Videogame> {
   return videogamesRepository.edit(id, game);
+}
+
+export function deleteGame(id: ObjectID): Promise<DeleteWriteOpResultObject> {
+  return videogamesRepository.delete(id);
 }
 
 /*export function getMediaGames(): Promise<Number> {
