@@ -1,5 +1,5 @@
 import { database } from '../../index';
-import { Collection } from 'mongodb';
+import { Collection, OptionalId } from 'mongodb';
 
 export class BaseRepository<T> {
   private readonly name: string;
@@ -12,8 +12,8 @@ export class BaseRepository<T> {
     return database.collection(this.name);
   }
 
-  save(model: T) {
-    this.getCollection().insertOne(model as any, (error, result) => {
+  save(model: OptionalId<T>) {
+    this.getCollection().insertOne(model, (error, result) => {
       if (error) {
         console.error('error', error);
       } else {

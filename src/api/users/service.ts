@@ -29,9 +29,9 @@ let usersDB: User[] = [
 
 export const findUserById = (id: number): User | undefined => {
 
-  const userRepository = new UsersRepository();
-  userRepository.save({});
-
+  // const userRepository = new UsersRepository();
+  // userRepository.save(user);
   const user = usersDB.find(user => user.id === id);
+
   return user;
 };

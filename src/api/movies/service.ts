@@ -1,11 +1,7 @@
 import { Movie, MovieDB } from './models';
 import fetch from 'node-fetch';
 import { Collection, Db, MongoClient } from 'mongodb';
-import { rejects } from 'assert';
-import { addListener } from 'process';
-import { database } from '../..';
 import { MoviesRepository } from './MoviesRepository';
-import { UsersRepository } from '../users/UsersRepository';
 
 let moviesDB: MovieDB = {
   size: 5,
@@ -14,33 +10,33 @@ let moviesDB: MovieDB = {
       id: 1,
       name: 'Taxi Driver',
       categoria: 'Cine Negro',
-      like: false,
+      like: false
     },
     '2': {
       id: 2,
       name: 'El Padrino',
       categoria: 'Drama',
-      like: true,
+      like: true
     },
     '3': {
       id: 3,
       name: 'GoodFellas',
       categoria: 'Mafia',
-      like: true,
+      like: true
     },
     '4': {
       id: 4,
       name: 'American Pie',
       categoria: 'Comedia',
-      like: true,
+      like: true
     },
     '5': {
       name: 'Pelicula nueva',
       categoria: 'si',
       like: false,
-      id: 5,
-    },
-  },
+      id: 5
+    }
+  }
 };
 
 export const insertMovies = (moviesCollection: Collection<any>) => {
@@ -48,7 +44,7 @@ export const insertMovies = (moviesCollection: Collection<any>) => {
     name: 'Pelicula nueva',
     categoria: 'si',
     like: false,
-    id: 5,
+    id: 5
   };
   moviesCollection.insertOne(newMovie).then(() => {
     console.log('Pelicula insertada');
@@ -128,7 +124,7 @@ const sendNotification = (movie: Movie) => {
     'https://hooks.slack.com/services/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';
   const body = {
     text: 'Se ha creado la película: ' + movie.name,
-    icon_emoji: ':react:',
+    icon_emoji: ':react:'
   };
   const bodyJson = JSON.stringify(body);
   console.log(bodyJson);
@@ -142,11 +138,6 @@ const sendNotification = (movie: Movie) => {
 const moviesRepository = new MoviesRepository();
 
 export function createMovie(movie: Movie): Movie {
-
-  const userRepository = new UsersRepository();
-  userRepository.save(movie);
-
-
   moviesRepository.save(movie);
   return movie;
 }
