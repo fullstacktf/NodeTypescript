@@ -15,4 +15,15 @@ router.post('/', (req, res) => {
   res.json(tag);
 });
 
+router.get('/', (req, res) => {
+  const tagsCollection = database.collection('tag');
+  tagsCollection
+    .find()
+    .limit(10)
+    .toArray()
+    .then((tags) => {
+      res.json(tags);
+    });
+});
+
 export default router;
