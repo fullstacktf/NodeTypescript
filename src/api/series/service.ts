@@ -1,4 +1,6 @@
-import { Serie, seriesDB } from './models';
+import { seriesDB } from './models';
+
+import { database } from "../..";
 
 let seriesDB: seriesDB = {
   size: 1,
@@ -26,28 +28,39 @@ let seriesDB: seriesDB = {
 }
 
 export const getAllSeries = () => {
-  return seriesDB;
+  return database.collection('series');
 }
 
-export const getSerieById = (id:number) => {
-  const serie = seriesDB.serie[id];
+export const getSerieById = (id:string) => {
+  const collection = database.collection('series')
+  return new Promise ((resolve, reject) => {
+    collection.findOne({id: Number(id)}, (err, result) => {
+        if (err) {
+            console.log("Error: ", err);
+        }
+        resolve(result);
+    })
+})
+}
+
+export const createSerie = (serie:any) => {
+  const collection = database.collection('series')
+  collection.insertOne(serie, (error, result) => {
+    if(error){
+      console.error("error", error)
+    }
+  })
   return serie;
 }
 
-export const createSerie = (body:any) => {
-  seriesDB.size++;
-  seriesDB.serie[seriesDB.size] = body;
-  return seriesDB;
-}
-
 export const removeSerie = (id:number) => {
-  let serie = seriesDB.serie[id] 
-  if (serie) {
-    delete seriesDB.serie[id]
-    // seriesDB.serie.splice(id, 1);
-  }
-  else{
-    console.log("No existe la serie")
-  }
-  return seriesDB;
+  const collection = database.collection('series');
+  return new Promise ((resolve, reject) => {
+    collection.deleteOne({id: id}, (err, result) => {
+        if (err) {
+            console.log("Error: ", err);
+        }
+        resolve(result);
+    })
+})
 }

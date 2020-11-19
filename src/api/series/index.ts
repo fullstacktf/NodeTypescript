@@ -1,6 +1,6 @@
 import express from 'express';
 import { createSerie, getAllSeries, getSerieById, removeSerie } from './service';
-
+import { database } from "../..";
 
 const router = express.Router();
 
@@ -8,12 +8,24 @@ const router = express.Router();
 router.get('/season', (req, res) => {});
 
 router.get('/', (req, res) => {
-  res.json(getAllSeries());
+  const seriesCollection = database.collection('series');
+    seriesCollection
+      .find()
+      .limit(10)
+      .toArray()
+      .then((serie) => {
+        res.json(serie);
+      });
 });
 
 router.get('/:id', (req, res) => {
-  let id = Number(req.params.id);
-  res.json(getSerieById(id));
+  getSerieById(req.params.id)
+  .then((serie) => {
+    res.json(serie)
+  })
+  .catch((err => {
+    console.log("Error: ", err);
+  }))
 });
 
 // POST
@@ -25,26 +37,18 @@ router.post('/', (req, res) => {
 
 // PUT
 
-//http://localhost:3000//like/3 EN POSTMAN POR EJEMPLO
-router.put('/like/:id', (req, res) => {
-  let id = Number(req.params.id);
-  // TODO: 	let movieEditIndex = moviesDB.findIndex((movie) => movie.id === id);
-  // 	moviesDB[movieEditIndex].like = !moviesDB[movieEditIndex].like;
-  // 	res.json(moviesDB[movieEditIndex]);
-});
-router.put('/:id', (req, res) => {
-  let id = Number(req.params.id);
-  // TODO:	let movieEditIndex = moviesDB.findIndex((movie) => movie.id === id);
-  // 	moviesDB[movieEditIndex].name = req.body.name;
-  // 	res.json(moviesDB[movieEditIndex]);
-});
-
 // DELETE
 
 router.delete('/:id', (req, res) => {
-  let id = Number(req.params.id);
-  res.json(removeSerie(id));
-});
+  removeSerie(Number(req.params.id))
+  .then((serie) => {
+    res.json("serie eliminada")
+  })
+  .catch((err => {
+    res.json("Hubo un error " + err)
+  }))
+})
+
 
 
 export default router;
