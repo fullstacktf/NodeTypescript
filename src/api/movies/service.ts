@@ -137,7 +137,7 @@ const sendNotification = (movie: Movie) => {
 
 const moviesRepository = new MoviesRepository();
 
-export function createMovie(movie: Movie): Movie {
+export function createMovie(database: Db, movie: Movie, name: string): Movie {
   moviesRepository.save(movie);
   return movie;
 }

@@ -4,6 +4,7 @@ import movieRouter from './api/movies/';
 import { insertMovies, loadDatabase } from './api/movies/service';
 import { User } from './api/users/models';
 import { findUserById } from './api/users/service';
+import seriesRouter from './api/series/';
 
 const app = express();
 app.use(express.json());
@@ -42,6 +43,8 @@ app.get('/admin', (req, res) => {
 });
 
 app.use('/movie', movieRouter);
+
+app.use('/series', seriesRouter);
 
 app.get('/', (req, res) => {
   res.json(req);
