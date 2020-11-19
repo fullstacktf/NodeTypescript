@@ -1,6 +1,7 @@
 import express from 'express';
 import { Db } from 'mongodb';
 import movieRouter from './api/movies/';
+import tagsRouter from './api/tags/';
 import { insertMovies, loadDatabase } from './api/movies/service';
 import { User } from './api/users/models';
 import { findUserById } from './api/users/service';
@@ -42,6 +43,9 @@ app.get('/admin', (req, res) => {
 });
 
 app.use('/movie', movieRouter);
+
+app.use('/tags', tagsRouter);
+
 
 app.get('/', (req, res) => {
   res.json(req);
