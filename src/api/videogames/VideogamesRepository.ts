@@ -1,19 +1,20 @@
 import { Videogame } from './models';
 import { BaseRepository } from '../utils/BaseRepository';
+import { ObjectID } from 'mongodb';
 
 export class VideogamesRepository extends BaseRepository<Videogame> {
   constructor() {
     super('games');
   }
 
-  readAll(): Videogame[]{
-    let games = [];
-    this.getCollection().find({}).toArray(function(err, result) {
-      console.log(result);
-      games = result;
-    });
-    return games;
-}
+  readAll(): Promise<Videogame[]> {
+    return this.getCollection().find({}).toArray();
+  }
+
+  edit(id: ObjectID, game: Partial<Videogame>): Partial<Videogame> {
+    this.getCollection().updateOne({ _id: id }, { $set: { ...game } });
+    return game;
+  }
 }
 
 /*

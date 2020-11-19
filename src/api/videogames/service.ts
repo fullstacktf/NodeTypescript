@@ -1,5 +1,5 @@
 import { Videogame } from './models';
-import { Collection } from 'mongodb';
+import { Collection, ObjectID } from 'mongodb';
 import { VideogamesRepository } from './VideogamesRepository';
 
 export const insertGames = (moviesCollection: Collection<any>) => {
@@ -7,7 +7,7 @@ export const insertGames = (moviesCollection: Collection<any>) => {
     name: 'Juego nuevo',
     categoria: 'si',
     like: false,
-    id: 5
+    id: 5,
   };
   moviesCollection.insertOne(newGame).then(() => {
     console.log('Juego insertado');
@@ -21,8 +21,20 @@ export function createGame(game: Videogame): Videogame {
   return game;
 }
 
-export function searchGames(): Videogame[] {
+export function searchGames(): Promise<Videogame[]> {
   return videogamesRepository.readAll();
 }
 
+export function updateGame(
+  id: ObjectID,
+  game: Partial<Videogame>
+): Partial<Videogame> {
+  return videogamesRepository.edit(id, game);
+}
 
+/*export function getMediaGames(): Promise<Number> {
+   return new Promise(()
+   videogamesRepository.readAll().then((games) => {
+   games.media
+  });
+}*/

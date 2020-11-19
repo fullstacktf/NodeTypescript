@@ -1,9 +1,7 @@
 import express from 'express';
+import { ObjectID } from 'mongodb';
 import { database } from '../..';
-import {
-  createGame,
-  searchGames
-} from './service';
+import { createGame, searchGames, updateGame } from './service';
 
 const router = express.Router();
 // Esto se hace con el PostMan
@@ -14,9 +12,15 @@ router.post('/', (req, res) => {
 });
 
 router.get('/', (req, res) => {
-  const moviesCollection = searchGames();
-  console.log(searchGames());
-  res.json(moviesCollection);
+  searchGames().then((games) => {
+    res.json(games);
+  });
+});
+
+router.put('/:id', (req, res) => {
+  let id = new ObjectID(req.params.id);
+  let result = updateGame(id, req.body);
+  res.json(result);
 });
 
 export default router;
