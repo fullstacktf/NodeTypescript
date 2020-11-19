@@ -8,7 +8,7 @@ export class BaseRepository<T> {
     this.name = name;
   }
 
-  private getCollection(): Collection<T> {
+  public getCollection(): Collection<T> {
     return database.collection(this.name);
   }
 

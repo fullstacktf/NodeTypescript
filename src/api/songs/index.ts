@@ -1,5 +1,5 @@
 import express from 'express';
-import { createSong, getAllSongs } from './service';
+import { createSong, getAllSongs, getSongsByMinDuration } from './service';
 
 const router = express.Router();
 
@@ -34,6 +34,10 @@ router.get('/:id', (req, res) => {
 
 router.delete('/:id', (req, res) => {
 
+});
+
+router.get('/duration/:sec', (req, res) => {
+  getSongsByMinDuration(Number(req.params.sec)).then((songs) => res.json(songs));
 });
 
 router.get('/', (req, res) => {
