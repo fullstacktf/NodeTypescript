@@ -1,16 +1,22 @@
 import { Tag } from './models';
-// import fetch from 'node-fetch';
-// import { Collection, Db, MongoClient } from 'mongodb';
 import { TagsRepository } from './TagsRepository';
 
-const tagsRepository = new TagsRepository();
+export class TagsService {
+  private readonly repository: TagsRepository;
 
-export function createTag(tag: Tag): Tag {
-  tagsRepository.save(tag);
-  return tag;
-}
+  constructor(tagsRepository: TagsRepository) {
+    this.repository = tagsRepository;
+  }
 
-export function deleteTag(id: Number): Number{
-  tagsRepository.removeById(id);
-  return id;
+  async createTag(tag: Tag) {
+    await this.repository.save(tag);
+  }
+
+  async deleteTagById(id: string) {
+    await this.repository.deleteById(id);
+  }
+
+  async getAllTags(): Promise<Tag[]> {
+    return await this.repository.findAll();
+  }
 }

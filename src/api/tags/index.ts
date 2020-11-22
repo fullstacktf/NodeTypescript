@@ -1,35 +1,13 @@
-import express from 'express';
-import { database } from '../..';
-import { createTag, deleteTag } from './service'
+import { Database } from '../../helpers/Database';
+import { TagsRepository } from './TagsRepository';
+import { TagsService } from './service';
+import { TagsController } from './controller';
 
-/* import {
+export const generateTagsRouter = (database: Database) => {
+  const tagsRepository = new TagsRepository(database);
+  const tagsService = new TagsService(tagsRepository);
+  const tagsController = new TagsController(tagsService);
 
-} from './service';
-*/
+  return tagsController.router;
+};
 
-const router = express.Router();
-
-// Tags
-router.post('/', (req, res) => {
-  const tag = createTag(req.body);
-  res.json(tag);
-});
-
-router.get('/', (req, res) => {
-  const tagsCollection = database.collection('tag');
-  tagsCollection
-    .find()
-    .limit(10)
-    .toArray()
-    .then((tags) => {
-      res.json(tags);
-    });
-});
-
-router.delete('/:id', (req, res) => {
-  const id = Number(req.params.id);
-  const tag = deleteTag(id);
-  res.json(tag);
-});
-
-export default router;

@@ -17,7 +17,7 @@
   "scripts": {
     "build": "tsc",
     "clean": "shx rm -rf dist lib",
-    "dev": "nodemon src/index.ts",
+    "dev": "nodemon src/server.ts",
     "lint": "eslint --max-warnings 0 . --ext .ts",
     "test": "jest",
     "test-ci": "CI=true jest"
