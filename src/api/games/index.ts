@@ -2,14 +2,14 @@ import express, { Router } from 'express';
 import { GameService } from './service';
 import { Database } from '../../helpers/Database';
 
-export const newGameRouter = (database: Database) => {
+export const generateGamesRouter = (database: Database) => {
   const gameService = new GameService(database);
   const gameRouter = new GameRouter(gameService);
 
   return gameRouter.router;
 };
 
-export class GameRouter {
+class GameRouter {
   private service: GameService;
   public readonly router: Router;
 
