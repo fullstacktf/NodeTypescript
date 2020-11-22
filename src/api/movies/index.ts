@@ -1,12 +1,5 @@
 import express from 'express';
-import { database } from '../..';
-import {
-  createMovie,
-  isLike,
-  getMovie,
-  getMovies,
-  getLikedMovie,
-} from './service';
+import { createMovie, getLikedMovie, getMovie, isLike } from './service';
 
 const router = express.Router();
 // Esto se hace con el PostMan
