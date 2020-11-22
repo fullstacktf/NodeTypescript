@@ -1,15 +1,23 @@
-import { database } from '../../index';
-import { Collection, OptionalId } from 'mongodb';
+import { Collection, FilterQuery, ObjectId, OptionalId } from 'mongodb';
+import { BaseModel, Database } from '../../helpers/Database';
 
-export class BaseRepository<T> {
-  private readonly name: string;
+type Query<T> = FilterQuery<T | { _id: string }>;
 
-  constructor(name: string) {
-    this.name = name;
+export class BaseRepository<T extends BaseModel> {
+  private readonly collectionName: string;
+  private readonly database: Database;
+
+  constructor(database: Database, collectionName: string) {
+    this.database = database;
+    this.collectionName = collectionName;
   }
 
   private getCollection(): Collection<T> {
-    return database.collection(this.name);
+    return this.database.collection<T>(this.collectionName);
+  }
+
+  private toObjectIdFilter(id: string): FilterQuery<T> {
+    return { _id: new ObjectId(id) as any };
   }
 
   save(model: OptionalId<T>) {
@@ -19,6 +27,38 @@ export class BaseRepository<T> {
       } else {
         console.log('Result: ', result);
       }
+    });
+  }
+
+  async deleteById(id: string) {
+    return new Promise((resolve, reject) => {
+      this.getCollection().deleteOne(this.toObjectIdFilter(id), (err, results) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(results);
+        }
+      });
+    });
+  }
+
+  findAll(limit: number = 10): Promise<T[]> {
+    return new Promise((resolve, reject) => {
+      this.getCollection()
+        .find()
+        .limit(limit)
+        .toArray()
+        .then(movies => resolve(movies))
+        .catch(err => reject(err));
+    });
+  }
+
+  findOne(query: Query<T>): Promise<T | null> {
+    return new Promise((resolve, reject) => {
+      this.getCollection()
+        .findOne(query)
+        .then(result => resolve(result))
+        .catch(err => reject(err));
     });
   }
 }

@@ -1,20 +1,13 @@
 import express from 'express';
-import { database } from '../..';
-import {
-  createMovie,
-  isLike,
-  getMovie,
-  getMovies,
-  getLikedMovie,
-} from './service';
+import { createMovie, getLikedMovie, getMovie, isLike } from './service';
 
 const router = express.Router();
 // Esto se hace con el PostMan
 //creamos ID para las peliculas
-// router.post('/', (req, res) => {
-//   const movie = createMovie(database, req.body, 'movie');
-//   res.json(movie);
-// });
+router.post('/', (req, res) => {
+  const movie = createMovie(req.body);
+  res.json(movie);
+});
 
 ///////likes
 router.get('/like/:id', (req, res) => {

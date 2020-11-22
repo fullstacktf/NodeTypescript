@@ -1,5 +1,3 @@
-export const getHelloMessage = () => 'Hello';
-
 export const assertIsNotEmpty = (value: string): string => {
   if (!value) {
     throw new Error(`${value} is an empty string`);
