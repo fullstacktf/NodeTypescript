@@ -1,20 +1,24 @@
-import { DeleteWriteOpResultObject, ObjectId } from 'mongodb';
+import { GameRepository } from '../repository';
+import { Database } from '../../../helpers/Database';
 import { GameService } from '../service';
-import { VideogamesRepository } from '../VideogamesRepository';
 
-class VideogamesRepositoryDatabaseDown extends VideogamesRepository {
+class GameRepositoryDatabaseDown extends GameRepository {
+  constructor() {
+    super({} as Database);
+  }
 
-
-  delete(): Promise<DeleteWriteOpResultObject> {
-    throw new Error('Database is down 🔥🔥🔥');
+  async deleteById(id: string): Promise<unknown> {
+    throw new Error(`Database is down 🔥🔥🔥: ${id}`);
   }
 }
 
 describe('service', () => {
-  it('Should throw an error when the database is down', () => {
-    const databaseDownRepository = new VideogamesRepositoryDatabaseDown();
-    const service = new GameService(database, databaseDownRepository);
+  it('Should throw an error when the database is down', done => {
+    const databaseDownRepository = new GameRepositoryDatabaseDown();
+    const service = new GameService(databaseDownRepository);
 
-    expect(() => service.deleteGame(new ObjectId('1'))).toThrowError();
+    service.deleteGame('1')
+      .then(() => done('No exception thrown'))
+      .catch(() => done());
   });
 });

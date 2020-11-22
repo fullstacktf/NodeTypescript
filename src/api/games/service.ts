@@ -1,11 +1,10 @@
 import { GameRepository } from './repository';
-import { Database } from '../../helpers/Database';
 
 export class GameService {
   private repository: GameRepository;
 
-  constructor(database: Database) {
-    this.repository = new GameRepository(database);
+  constructor(gameRepository: GameRepository) {
+    this.repository = gameRepository;
   }
 
   async deleteGame(id: string) {

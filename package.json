@@ -23,7 +23,10 @@
     "test-ci": "CI=true jest"
   },
   "jest": {
-    "preset": "ts-jest"
+    "preset": "ts-jest",
+    "testPathIgnorePatterns": [
+      "/dist/"
+    ]
   },
   "dependencies": {
     "express": "^4.17.1",

@@ -1,10 +1,10 @@
 import express from 'express';
-import bookRouter from './api/books/';
-import movieRouter from './api/movies/';
+import { generateMoviesRouter } from './api/movies/';
 import { authenticate } from './api/middlewares/auth';
 import { generateGamesRouter } from './api/games';
 import { Database } from './helpers/Database';
 import { generateTagsRouter } from './api/tags';
+import { generateBooksRouter } from './api/books';
 
 const database: Database = new Database();
 
@@ -15,8 +15,8 @@ app.use(express.json());
 app.use(authenticate);
 
 app.get('/admin', (req, res) => res.json({ titulo: 'Lo importante es la salud' }));
-app.use('/movies', movieRouter);
-app.use('/books', bookRouter);
+app.use('/movies', generateMoviesRouter(database));
+app.use('/books', generateBooksRouter(database));
 app.use('/games', generateGamesRouter(database));
 app.use('/tags', generateTagsRouter(database));
 app.get('/', (req, res) => res.json({ message: 'Hello from server 👋' }));

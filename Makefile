@@ -46,4 +46,4 @@ release: check
 	@npm run clean
 	@npm install
 	@npm run lint
-	@npm run tsc --project tsconfig.json
+	@npm run build

@@ -5,7 +5,7 @@ type Query<T> = FilterQuery<T | { _id: string }>;
 
 export class BaseRepository<T extends BaseModel> {
   private readonly collectionName: string;
-  private readonly database: Database;
+  protected readonly database: Database;
 
   constructor(database: Database, collectionName: string) {
     this.database = database;
@@ -57,6 +57,15 @@ export class BaseRepository<T extends BaseModel> {
     return new Promise((resolve, reject) => {
       this.getCollection()
         .findOne(query)
+        .then(result => resolve(result))
+        .catch(err => reject(err));
+    });
+  }
+
+  findById(id: string): Promise<T | null> {
+    return new Promise((resolve, reject) => {
+      this.getCollection()
+        .findOne(this.toObjectIdFilter(id))
         .then(result => resolve(result))
         .catch(err => reject(err));
     });

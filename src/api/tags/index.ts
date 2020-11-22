@@ -1,5 +1,5 @@
 import { Database } from '../../helpers/Database';
-import { TagsRepository } from './TagsRepository';
+import { TagsRepository } from './repository';
 import { TagsService } from './service';
 import { TagsController } from './controller';
 
@@ -10,4 +10,3 @@ export const generateTagsRouter = (database: Database) => {
 
   return tagsController.router;
 };
-

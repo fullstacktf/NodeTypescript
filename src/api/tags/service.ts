@@ -1,5 +1,5 @@
 import { Tag } from './models';
-import { TagsRepository } from './TagsRepository';
+import { TagsRepository } from './repository';
 
 export class TagsService {
   private readonly repository: TagsRepository;
